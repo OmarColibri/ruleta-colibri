@@ -310,3 +310,6 @@ button{font-family:inherit}
 [hidden]{display:none !important}
 /* autocompletado del navegador sin fondo claro */
 .claim-form input:-webkit-autofill,.claim-form input:-webkit-autofill:hover,.claim-form input:-webkit-autofill:focus{-webkit-text-fill-color:#fff;-webkit-box-shadow:0 0 0 1000px #0b2a7a inset;caret-color:#fff;transition:background-color 9999s}
+/* modal: se puede desplazar pero sin barra visible */
+.modal{scrollbar-width:none;-ms-overflow-style:none}
+.modal::-webkit-scrollbar{display:none;width:0;height:0}
