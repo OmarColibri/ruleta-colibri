@@ -306,3 +306,7 @@ button{font-family:inherit}
 .claim-form select{font:inherit;font-size:1rem;color:#fff;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:5px;padding:12px 14px;outline:none}
 .claim-form select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(30,243,255,.2)}
 .claim-form select option,.claim-form select optgroup{background:#061a52;color:#fff}
+/* el atributo hidden siempre gana (los label usan display:grid) */
+[hidden]{display:none !important}
+/* autocompletado del navegador sin fondo claro */
+.claim-form input:-webkit-autofill,.claim-form input:-webkit-autofill:hover,.claim-form input:-webkit-autofill:focus{-webkit-text-fill-color:#fff;-webkit-box-shadow:0 0 0 1000px #0b2a7a inset;caret-color:#fff;transition:background-color 9999s}

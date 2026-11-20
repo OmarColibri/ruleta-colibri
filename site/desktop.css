@@ -134,4 +134,5 @@
   .coupon strong{font-size:calc(27.2 * var(--u));margin-top:calc(4 * var(--u))}
   .claim-form select{border:calc(1 * var(--u)) solid rgba(255,255,255,.2);border-radius:calc(5 * var(--u));padding:calc(12 * var(--u)) calc(14 * var(--u))}
   .claim-form select:focus{box-shadow:0 0 0 calc(3 * var(--u)) rgba(30,243,255,.2)}
+  .claim-form input:-webkit-autofill,.claim-form input:-webkit-autofill:hover,.claim-form input:-webkit-autofill:focus{-webkit-box-shadow:0 0 0 calc(1000 * var(--u)) #0b2a7a inset}
 }
