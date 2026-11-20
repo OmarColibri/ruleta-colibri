@@ -1,0 +1,132 @@
+/* GENERADO por tools/gen_desktop_css.py — no editar a mano */
+@media (min-width:1025px){
+  :root{--u:calc(100vw / 1728)}
+  .container{padding-inline:calc(119.992 * var(--u))}
+  .h-xl{font-size:calc(76.0 * var(--u))}
+  .eyebrow{font-size:calc(11 * var(--u))}
+  .btn{gap:calc(25 * var(--u));height:calc(54 * var(--u));padding:0 calc(23 * var(--u));border-radius:calc(5 * var(--u));font-size:calc(14 * var(--u))}
+  .btn:hover{transform:translateY(calc(-2 * var(--u)))}
+  .btn svg{width:calc(18 * var(--u));height:calc(18 * var(--u))}
+  .btn-cyan{font-size:calc(16 * var(--u));box-shadow:0 0 calc(24 * var(--u)) rgba(23,225,241,.2)}
+  .btn-cyan:hover{box-shadow:0 0 calc(32 * var(--u)) rgba(23,225,241,.45)}
+  .btn-outline{border:calc(1.25 * var(--u)) solid rgba(255,255,255,.35);backdrop-filter:blur(calc(6 * var(--u)))}
+  .btn-white{border-radius:calc(999 * var(--u))}
+  .nav-wrap{padding-top:calc(28 * var(--u))}
+  .nav{width:calc(100% - 2 * calc(72.0 * var(--u)));max-width:calc(1584 * var(--u));border:calc(1 * var(--u)) solid rgba(255,255,255,.5);border-radius:calc(16 * var(--u));padding:calc(16 * var(--u)) calc(24 * var(--u));backdrop-filter:blur(calc(29 * var(--u)))}
+  .nav-logo img{width:calc(154 * var(--u))}
+  .hero{height:calc(765 * var(--u))}
+  .hero-inner{padding:calc(20 * var(--u)) calc(103.68 * var(--u)) 0}
+  .hero-title{font-size:calc(80.0 * var(--u))}
+  .hero-sub{font-size:calc(30.0 * var(--u));max-width:calc(560 * var(--u));margin-top:calc(16 * var(--u))}
+  .hero .btn{margin-top:calc(33 * var(--u))}
+  .strip{padding:calc(24 * var(--u)) 0}
+  .strip p{font-size:calc(24.0 * var(--u))}
+  .prizes{padding:calc(130 * var(--u)) 0}
+  .lead{font-size:calc(17 * var(--u));margin-top:calc(14 * var(--u))}
+  .prize-grid{grid-auto-rows:calc(250 * var(--u));gap:calc(12 * var(--u));margin-top:calc(80 * var(--u))}
+  .prize{border-radius:calc(9 * var(--u));padding:calc(30 * var(--u))}
+  .prize:hover{transform:translateY(calc(-4 * var(--u)));box-shadow:0 calc(20 * var(--u)) calc(40 * var(--u)) calc(-20 * var(--u)) rgba(0,0,0,.6)}
+  .prize .tag{font-size:calc(10 * var(--u))}
+  .prize h3{font-size:calc(38.0 * var(--u));padding-bottom:calc(12 * var(--u));border-bottom:calc(1 * var(--u)) solid rgba(16,63,86,.12)}
+  .prize p{font-size:calc(16 * var(--u));padding-top:calc(14 * var(--u));max-width:calc(330 * var(--u))}
+  .prize-video{padding:calc(42 * var(--u))}
+  .prize-video h3{font-size:calc(74.995 * var(--u))}
+  .game{padding:calc(72 * var(--u)) 0 calc(90 * var(--u))}
+  .game-grid{gap:calc(190.08 * var(--u));margin-top:calc(30 * var(--u))}
+  .wheel-area{width:min(calc(604 * var(--u)),100%)}
+  .wheel{filter:drop-shadow(0 calc(30 * var(--u)) calc(50 * var(--u)) rgba(0,0,0,.45))}
+  .pointer{top:calc(-8 * var(--u));width:calc(58 * var(--u));height:calc(54 * var(--u));filter:drop-shadow(0 calc(4 * var(--u)) calc(6 * var(--u)) rgba(0,0,0,.4))}
+  .pointer::after{inset:calc(4 * var(--u)) calc(6 * var(--u)) calc(9 * var(--u))}
+  .spin-btn{font-size:calc(24.0 * var(--u));border:calc(7 * var(--u)) solid #fff;box-shadow:0 calc(7 * var(--u)) 0 #2238a8,0 calc(14 * var(--u)) calc(30 * var(--u)) rgba(0,0,0,.35)}
+  .chances{border-radius:calc(8 * var(--u));padding:calc(17 * var(--u)) calc(16 * var(--u));min-width:calc(171 * var(--u));box-shadow:calc(8 * var(--u)) calc(8 * var(--u)) 0 rgba(19,225,241,.18);backdrop-filter:blur(calc(28 * var(--u)))}
+  .chances strong{font-size:calc(36 * var(--u))}
+  .chances span{font-size:calc(16 * var(--u));margin-top:calc(2 * var(--u))}
+  .game-copy{padding-left:calc(5 * var(--u))}
+  .game-copy h3{font-size:calc(45.965 * var(--u))}
+  .game-hint{font-size:calc(24.0 * var(--u));margin-top:calc(20 * var(--u))}
+  .game-copy .muted{font-size:calc(17 * var(--u));margin-top:calc(14 * var(--u));max-width:calc(571 * var(--u))}
+  .game-status{margin-top:calc(24 * var(--u));font-size:calc(18 * var(--u))}
+  .services{padding:calc(130 * var(--u)) 0}
+  .services .h-xl{margin-top:calc(22 * var(--u));max-width:calc(620 * var(--u))}
+  .services-lead{margin-top:calc(28 * var(--u));font-size:calc(16 * var(--u));max-width:calc(440 * var(--u))}
+  .accordion{border-top:calc(1 * var(--u)) solid var(--line)}
+  .acc-item{border-bottom:calc(1 * var(--u)) solid var(--line)}
+  .acc-head{grid-template-columns:calc(42 * var(--u)) 1fr calc(28 * var(--u));padding:calc(32 * var(--u)) 0}
+  .acc-num{font-size:calc(10 * var(--u))}
+  .acc-title{font-size:calc(34.0 * var(--u))}
+  .acc-icon{width:calc(28 * var(--u));height:calc(28 * var(--u));border:calc(1.25 * var(--u)) solid var(--cyan);border-radius:calc(3 * var(--u))}
+  .acc-icon::before,.acc-icon::after{width:calc(10 * var(--u));height:calc(1 * var(--u))}
+  .acc-cols{gap:calc(38 * var(--u));padding-left:calc(42 * var(--u))}
+  .acc-item.open .acc-cols{padding-bottom:calc(36 * var(--u))}
+  .acc-label{font-size:calc(9 * var(--u))}
+  .acc-cols p{font-size:calc(14 * var(--u));padding-top:calc(12 * var(--u))}
+  .how{padding:calc(102 * var(--u)) 0}
+  .how .h-xl{font-size:calc(77.76 * var(--u))}
+  .steps{grid-template-columns:repeat(4,calc(245 * var(--u)));column-gap:calc(40 * var(--u));margin-top:calc(50 * var(--u))}
+  .steps::before{top:calc(24 * var(--u));width:calc(880 * var(--u));height:calc(1 * var(--u))}
+  .step-num{width:calc(76 * var(--u));height:calc(48 * var(--u));font-size:calc(12 * var(--u));box-shadow:calc(7 * var(--u)) calc(7 * var(--u)) 0 rgba(0,15,65,.24)}
+  .steps h3{font-size:calc(26 * var(--u));margin-top:calc(30 * var(--u))}
+  .steps p{font-size:calc(16 * var(--u));max-width:calc(210 * var(--u));margin:calc(12 * var(--u)) auto 0}
+  .validity{padding:calc(111 * var(--u)) 0 calc(112 * var(--u))}
+  .badge{gap:calc(9 * var(--u));padding:calc(15 * var(--u)) calc(20 * var(--u));box-shadow:calc(7 * var(--u)) calc(7 * var(--u)) 0 var(--cyan)}
+  .badge-txt{font-size:calc(8 * var(--u));width:calc(77 * var(--u))}
+  .badge-div{width:calc(1 * var(--u));height:calc(24 * var(--u))}
+  .badge img{width:calc(154 * var(--u))}
+  .validity-label{font-size:calc(16 * var(--u));margin-top:calc(17 * var(--u))}
+  .validity-date{font-size:calc(50.0 * var(--u));margin-top:calc(12 * var(--u))}
+  .link-arrow{gap:calc(12 * var(--u));margin-top:calc(27 * var(--u));font-size:calc(12 * var(--u))}
+  .link-arrow svg{width:calc(18 * var(--u));height:calc(18 * var(--u))}
+  .cta{height:calc(650 * var(--u))}
+  .cta-line{top:calc(299 * var(--u));height:calc(3 * var(--u));box-shadow:0 0 calc(35 * var(--u)) #17e1f1}
+  .cta-inner{padding-top:calc(191 * var(--u))}
+  .cta .h-xl{font-size:calc(88.0 * var(--u));max-width:calc(1150 * var(--u))}
+  .cta .btn{margin-top:calc(40 * var(--u))}
+  .cta-word{top:calc(472 * var(--u));font-size:calc(269.568 * var(--u))}
+  .glow{width:calc(674 * var(--u));height:calc(674 * var(--u));filter:blur(calc(110 * var(--u)))}
+  .cta .glow{right:calc(-260 * var(--u));top:calc(286 * var(--u))}
+  .footer{padding:calc(85 * var(--u)) 0 calc(70 * var(--u))}
+  .footer .glow{left:calc(-180 * var(--u));bottom:calc(-330 * var(--u))}
+  .footer .container{padding-inline:calc(69.984 * var(--u))}
+  .trust{gap:calc(28 * var(--u));border-radius:calc(35 * var(--u));padding:calc(55 * var(--u)) calc(42 * var(--u)) calc(55 * var(--u)) calc(38 * var(--u));min-height:calc(224 * var(--u))}
+  .trust-title{font-size:calc(38.0 * var(--u))}
+  .trust-cards{gap:calc(18 * var(--u))}
+  .google{gap:calc(11 * var(--u));border:calc(.35 * var(--u)) solid #3686f7;border-radius:calc(11 * var(--u));padding:calc(16.5 * var(--u));width:calc(349 * var(--u));box-shadow:0 calc(1.4 * var(--u)) calc(2.7 * var(--u)) rgba(0,0,0,.1),0 calc(4.8 * var(--u)) calc(4.8 * var(--u)) rgba(0,0,0,.09),0 calc(11 * var(--u)) calc(6 * var(--u)) rgba(0,0,0,.05)}
+  .google img{width:calc(81 * var(--u));height:calc(81 * var(--u))}
+  .google strong{font-size:calc(16.5 * var(--u))}
+  .rating{gap:calc(11 * var(--u));margin:calc(10 * var(--u)) 0}
+  .rating b{font-size:calc(27.5 * var(--u))}
+  .stars{gap:calc(2.7 * var(--u))}
+  .stars svg{width:calc(27 * var(--u));height:calc(27 * var(--u))}
+  .google small{font-size:calc(11 * var(--u))}
+  .count{border-radius:calc(8 * var(--u));width:calc(262 * var(--u));height:calc(115 * var(--u))}
+  .count strong{font-size:calc(53.4 * var(--u))}
+  .count small{font-size:calc(13.35 * var(--u))}
+  .foot-divider{height:calc(3 * var(--u));border-radius:calc(5 * var(--u));margin:calc(34 * var(--u)) 0 calc(37 * var(--u))}
+  .foot-brand img{width:calc(503 * var(--u))}
+  .tagline{font-size:calc(18 * var(--u));margin:calc(9 * var(--u)) 0 0 calc(21 * var(--u))}
+  .foot-h{font-size:calc(14 * var(--u));margin-bottom:calc(16 * var(--u))}
+  .contact-h{font-size:calc(18 * var(--u));margin:calc(51 * var(--u)) 0 calc(11 * var(--u)) calc(5 * var(--u))}
+  .socials{gap:calc(8 * var(--u));margin-left:calc(3 * var(--u))}
+  .socials a{width:calc(25 * var(--u));height:calc(25 * var(--u))}
+  .socials a:hover{transform:translateY(calc(-2 * var(--u)))}
+  .foot-contact{gap:calc(26 * var(--u));font-size:calc(16 * var(--u));margin:calc(20 * var(--u)) 0 0 calc(5 * var(--u))}
+  .foot-services{padding-top:calc(25 * var(--u))}
+  .foot-list{padding-left:calc(22 * var(--u));font-size:calc(18 * var(--u))}
+  .foot-list.cols-2{column-gap:calc(24 * var(--u))}
+  .foot-loc{padding-top:calc(25 * var(--u))}
+  .foot-terms{padding-top:calc(24 * var(--u));font-size:calc(14 * var(--u))}
+  .modal{border-radius:calc(20 * var(--u));padding:calc(40 * var(--u)) calc(36 * var(--u)) calc(32 * var(--u));width:min(calc(520 * var(--u)),calc(100% - calc(32 * var(--u))));max-height:calc(100dvh - calc(32 * var(--u)));box-shadow:0 calc(40 * var(--u)) calc(80 * var(--u)) rgba(0,0,0,.6),inset 0 0 0 calc(1 * var(--u)) rgba(30,243,255,.25)}
+  .modal::backdrop{backdrop-filter:blur(calc(4 * var(--u)))}
+  .modal .eyebrow{margin-bottom:calc(14 * var(--u))}
+  .modal-close-form{top:calc(12 * var(--u));right:calc(14 * var(--u))}
+  .modal-title{font-size:calc(35.2 * var(--u));margin-bottom:calc(10 * var(--u))}
+  .claim-form{gap:calc(14 * var(--u));margin-top:calc(22 * var(--u))}
+  .claim-form label{gap:calc(6 * var(--u))}
+  .claim-form input:not([type=checkbox]){border:calc(1 * var(--u)) solid rgba(255,255,255,.2);border-radius:calc(5 * var(--u));padding:calc(12 * var(--u)) calc(14 * var(--u))}
+  .claim-form input:focus{box-shadow:0 0 0 calc(3 * var(--u)) rgba(30,243,255,.2)}
+  .claim-form .check{gap:calc(10 * var(--u))}
+  .check input{width:calc(18 * var(--u));height:calc(18 * var(--u))}
+  .terms{padding-left:calc(20 * var(--u));gap:calc(10 * var(--u));margin-top:calc(16 * var(--u))}
+  #doneView .btn{margin-top:calc(24 * var(--u))}
+  .confetti{top:calc(-12 * var(--u));width:calc(10 * var(--u));height:calc(14 * var(--u))}
+}

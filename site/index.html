@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colibrí Lucky Shot · Colibrí Searcher</title>
+  <meta name="description" content="Gira la ruleta Colibrí Lucky Shot y gana beneficios para tu negocio: descuentos, bonos y video promocional. Promoción válida del 18 de noviembre al 5 de diciembre de 2026.">
+  <meta property="og:title" content="Colibrí Lucky Shot">
+  <meta property="og:description" content="Un giro puede convertirse en una oportunidad para tu negocio.">
+  <meta property="og:image" content="assets/hero.jpg">
+  <meta name="theme-color" content="#061a52">
+  <link rel="icon" href="assets/colibri-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Plus+Jakarta+Sans:wght@800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="desktop.css">
+</head>
+<body>
+
+<header class="nav-wrap">
+  <nav class="nav container">
+    <a href="#" class="nav-logo" aria-label="Colibrí Searcher">
+      <img src="assets/logo-color.png" alt="Colibrí Searcher" width="154" height="38">
+    </a>
+    <a href="#ruleta" class="btn btn-cyan">Girar la ruleta <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h11M10.5 5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1 class="hero-title">
+        <span class="t-cyan">COLIBRÍ</span>
+        <span>LUCKY SHOT</span>
+      </h1>
+      <p class="hero-sub">Un giro puede convertirse en una oportunidad para tu negocio.</p>
+      <a href="#como-funciona" class="btn btn-outline">Ver cómo funciona</a>
+    </div>
+  </section>
+
+  <!-- FRANJA -->
+  <div class="strip">
+    <div class="container"><p>Somos una agencia de marketing digital especializada en estrategias de marca, desarrollo y presencia digital.</p></div>
+  </div>
+
+  <!-- PREMIOS -->
+  <section class="prizes" id="premios">
+    <div class="container">
+      <h2 class="h-xl">¿Qué puede ganar tu negocio?</h2>
+      <p class="lead">Cada premio fue pensado para convertir un momento de suerte en una oportunidad real de crecimiento.</p>
+
+      <div class="prize-grid">
+        <article class="prize prize-video">
+          <span class="tag">Experiencia</span>
+          <div>
+            <h3 class="prize-big">Video promocional</h3>
+            <p>Edición de un video promocional de hasta 45 segundos.</p>
+          </div>
+        </article>
+        <article class="prize prize-blue">
+          <span class="tag">Impulso</span>
+          <div><h3>15% de descuento</h3><p>En uno de nuestros servicios seleccionados.</p></div>
+        </article>
+        <article class="prize prize-cyan">
+          <span class="tag">Bono</span>
+          <div><h3>$100 de bono</h3><p>Como bono inicial en la contratación de uno de nuestros servicios.</p></div>
+        </article>
+        <article class="prize prize-mint">
+          <span class="tag">Bono</span>
+          <div><h3>$50 de bono</h3><p>Como bono inicial en la contratación de uno de nuestros servicios.</p></div>
+        </article>
+        <article class="prize prize-white">
+          <span class="tag">Impulso</span>
+          <div><h3>10% de descuento</h3><p>En uno de nuestros servicios.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- RULETA -->
+  <section class="game" id="ruleta">
+    <div class="container">
+      <h2 class="h-xl">Tu suerte está a un giro.</h2>
+      <div class="game-grid">
+        <div class="wheel-area">
+          <div class="wheel-box">
+            <div class="pointer" aria-hidden="true"></div>
+            <svg id="wheel" class="wheel" viewBox="0 0 400 400" role="img" aria-label="Ruleta de premios"></svg>
+            <button id="spinBtn" class="spin-btn" type="button">GIRAR</button>
+          </div>
+          <div class="chances">
+            <strong id="chancesNum">3</strong>
+            <span id="chancesLabel">Oportunidades<br>restantes</span>
+          </div>
+        </div>
+        <div class="game-copy">
+          <h3 class="h-lg">Tu próximo impulso puede estar a un giro.</h3>
+          <p class="game-hint">Presiona el centro de la ruleta cuando estés listo.</p>
+          <p class="muted">Tienes 3 oportunidades para girar la ruleta y descubrir qué beneficio puedes ganar para tu negocio.</p>
+          <p id="gameStatus" class="game-status" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="services">
+    <div class="container services-grid">
+      <div>
+        <span class="eyebrow">De premio a posibilidad</span>
+        <h2 class="h-xl">Tu premio puede convertirse en <span class="t-cyan">crecimiento.</span></h2>
+        <p class="services-lead">Estos son algunos de los servicios donde puedes aplicar los beneficios de Lucky Shot.</p>
+      </div>
+      <div class="accordion" id="accordion">
+        <div class="acc-item open">
+          <button class="acc-head" type="button" aria-expanded="true">
+            <span class="acc-num">01</span><span class="acc-title">Branding</span><span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-body"><div class="acc-cols">
+            <div><span class="acc-label">Resultado</span><p>Fortalece la identidad de tu negocio, diferenciándolo de la competencia y generando confianza entre tus clientes potenciales.</p></div>
+            <div><span class="acc-label">Beneficio comercial</span><p>Favorece la preferencia por tu negocio al momento de elegir entre distintas alternativas.</p></div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <span class="acc-num">02</span><span class="acc-title">Posicionamiento SEO</span><span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-body"><div class="acc-cols">
+            <div><span class="acc-label">Resultado</span><p>Tu negocio aparece en Google cuando tus clientes buscan lo que ofreces, con más visitas orgánicas a tu sitio.</p></div>
+            <div><span class="acc-label">Beneficio comercial</span><p>Genera oportunidades de venta constantes sin depender únicamente de la publicidad pagada.</p></div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <span class="acc-num">03</span><span class="acc-title">Edición audiovisual</span><span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-body"><div class="acc-cols">
+            <div><span class="acc-label">Resultado</span><p>Videos profesionales que comunican tu propuesta de forma clara, atractiva y memorable.</p></div>
+            <div><span class="acc-label">Beneficio comercial</span><p>Aumenta el alcance y la interacción en tus canales, convirtiendo la atención en clientes.</p></div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <span class="acc-num">04</span><span class="acc-title">Gestión de redes sociales</span><span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-body"><div class="acc-cols">
+            <div><span class="acc-label">Resultado</span><p>Presencia constante y estratégica en las plataformas donde está tu audiencia.</p></div>
+            <div><span class="acc-label">Beneficio comercial</span><p>Construye comunidad alrededor de tu marca y mantiene a tu negocio presente en la mente del cliente.</p></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="how" id="como-funciona">
+    <div class="container">
+      <h2 class="h-xl center">Así funciona Lucky Shot</h2>
+      <ol class="steps">
+        <li><span class="step-num"><span>01</span></span><h3>Juega</h3><p>Tienes 3 oportunidades para girar la ruleta.</p></li>
+        <li><span class="step-num"><span>02</span></span><h3>Descubre</h3><p>Conoce el beneficio que obtuviste.</p></li>
+        <li><span class="step-num"><span>03</span></span><h3>Activa</h3><p>Completa tus datos para registrar tu premio.</p></li>
+        <li><span class="step-num"><span>04</span></span><h3>Crece</h3><p>Nuestro equipo coordinará contigo la activación.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- VIGENCIA -->
+  <section class="validity">
+    <div class="container center">
+      <div class="badge">
+        <span class="badge-txt">LUCKY SHOT · 2026</span>
+        <span class="badge-div" aria-hidden="true"></span>
+        <img src="assets/logo-color.png" alt="Colibrí Searcher" width="154" height="38">
+      </div>
+      <p class="validity-label">Promoción válida</p>
+      <p class="validity-date">18 de noviembre — 5 de diciembre de 2026</p>
+      <a href="#terminos" class="link-arrow" data-open-terms>Ver términos y condiciones <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h11M10.5 5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-line" aria-hidden="true"></div>
+    <div class="container center cta-inner">
+      <h2 class="h-xl">¿Y si este es el giro que impulsa tu negocio?</h2>
+      <a href="#ruleta" class="btn btn-white">Probar mi suerte <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h11M10.5 5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+    <div class="cta-word" aria-hidden="true">LUCKY SHOT</div>
+    <div class="glow" aria-hidden="true"></div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="trust">
+      <p class="trust-title">La agencia #1 de Puerto Rico</p>
+      <div class="trust-cards">
+        <div class="google">
+          <img src="assets/icons/google.svg" alt="" width="81" height="81">
+          <div>
+            <strong>Google Rating</strong>
+            <div class="rating"><b>5.0</b><span class="stars" aria-label="5 de 5 estrellas"><svg viewBox="0 0 24 24"><path d="M8.24 7.34 11.1 1.56a1 1 0 0 1 1.8 0l2.86 5.78 6.39.93a1 1 0 0 1 .56 1.71l-4.63 4.5 1.09 6.36a1 1 0 0 1-1.45 1.06L12 18.9l-5.72 3a1 1 0 0 1-1.45-1.06l1.09-6.36-4.63-4.5a1 1 0 0 1 .56-1.71z"/></svg><svg viewBox="0 0 24 24"><path d="M8.24 7.34 11.1 1.56a1 1 0 0 1 1.8 0l2.86 5.78 6.39.93a1 1 0 0 1 .56 1.71l-4.63 4.5 1.09 6.36a1 1 0 0 1-1.45 1.06L12 18.9l-5.72 3a1 1 0 0 1-1.45-1.06l1.09-6.36-4.63-4.5a1 1 0 0 1 .56-1.71z"/></svg><svg viewBox="0 0 24 24"><path d="M8.24 7.34 11.1 1.56a1 1 0 0 1 1.8 0l2.86 5.78 6.39.93a1 1 0 0 1 .56 1.71l-4.63 4.5 1.09 6.36a1 1 0 0 1-1.45 1.06L12 18.9l-5.72 3a1 1 0 0 1-1.45-1.06l1.09-6.36-4.63-4.5a1 1 0 0 1 .56-1.71z"/></svg><svg viewBox="0 0 24 24"><path d="M8.24 7.34 11.1 1.56a1 1 0 0 1 1.8 0l2.86 5.78 6.39.93a1 1 0 0 1 .56 1.71l-4.63 4.5 1.09 6.36a1 1 0 0 1-1.45 1.06L12 18.9l-5.72 3a1 1 0 0 1-1.45-1.06l1.09-6.36-4.63-4.5a1 1 0 0 1 .56-1.71z"/></svg><svg viewBox="0 0 24 24"><path d="M8.24 7.34 11.1 1.56a1 1 0 0 1 1.8 0l2.86 5.78 6.39.93a1 1 0 0 1 .56 1.71l-4.63 4.5 1.09 6.36a1 1 0 0 1-1.45 1.06L12 18.9l-5.72 3a1 1 0 0 1-1.45-1.06l1.09-6.36-4.63-4.5a1 1 0 0 1 .56-1.71z"/></svg></span></div>
+            <small>From 70 reviews - See all our reviews</small>
+          </div>
+        </div>
+        <div class="count">
+          <strong>+200</strong>
+          <small>Empresas confían en nosotros</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-divider" aria-hidden="true"></div>
+
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logo-white.png" alt="Colibrí Searcher" width="503" height="122">
+        <p class="tagline">Aparece donde tus clientes te buscan</p>
+        <p class="contact-h">Contactar</p>
+        <div class="socials">
+            <a href="https://www.facebook.com/colibrisearcherpr/" aria-label="Facebook" target="_blank" rel="noopener"><img src="assets/icons/facebook.svg" alt="" width="25" height="25"></a>
+            <a href="https://wa.me/17874942330" aria-label="WhatsApp" target="_blank" rel="noopener"><img src="assets/icons/whatsapp.svg" alt="" width="25" height="25"></a>
+            <a href="https://www.instagram.com/colibrisearcherpr/" aria-label="Instagram" target="_blank" rel="noopener"><img src="assets/icons/instagram.svg" alt="" width="25" height="25"></a>
+            <a href="https://www.linkedin.com/company/colibri-searcher/" aria-label="LinkedIn" target="_blank" rel="noopener"><img src="assets/icons/linkedin.svg" alt="" width="25" height="25"></a>
+            <a href="https://www.tiktok.com/@colibrisearcherpr" aria-label="TikTok" target="_blank" rel="noopener"><img src="assets/icons/tiktok.svg" alt="" width="25" height="25"></a>
+            <a href="https://www.youtube.com/@ColibriSearcher" aria-label="YouTube" target="_blank" rel="noopener"><img src="assets/icons/youtube.svg" alt="" width="25" height="25"></a>
+            <a href="https://www.behance.net/colibrsearcher" aria-label="Behance" target="_blank" rel="noopener"><img src="assets/icons/behance.svg" alt="" width="25" height="25"></a>
+        </div>
+        <div class="foot-contact">
+          <a href="tel:+17874942330">(787) 494-2330</a>
+          <a href="mailto:info@colibrisearcher.com">info@colibrisearcher.com</a>
+        </div>
+      </div>
+      <div class="foot-services">
+        <p class="foot-h">Servicios</p>
+        <ul class="foot-list cols-2">
+          <li>E-commerce</li><li>GBP</li><li>Producción audiovisual</li><li>Redes sociales</li><li>SEO</li>
+          <li>Email marketing</li><li>PPC</li><li>Web Design</li><li>Sitio express</li><li>Branding</li>
+        </ul>
+      </div>
+      <div class="foot-loc">
+        <p class="foot-h">Ubicación</p>
+        <ul class="foot-list"><li>Puerto Rico</li><li>República Dominicana</li><li>USA</li></ul>
+        <a href="#terminos" class="foot-terms" data-open-terms>Términos y condiciones</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL PREMIO -->
+<dialog id="prizeModal" class="modal">
+  <form method="dialog" class="modal-close-form"><button class="modal-x" aria-label="Cerrar">×</button></form>
+  <div id="prizeView">
+    <span class="eyebrow">¡Felicidades!</span>
+    <h3 class="modal-title">Ganaste <span id="prizeName" class="t-cyan"></span></h3>
+    <p id="prizeDesc" class="muted"></p>
+    <form id="claimForm" class="claim-form">
+      <p class="form-intro">Completa tus datos para registrar tu premio.</p>
+      <label>Nombre completo<input name="nombre" required autocomplete="name"></label>
+      <label>Nombre del negocio<input name="negocio" required autocomplete="organization"></label>
+      <label>Correo electrónico<input name="email" type="email" required autocomplete="email"></label>
+      <label>Teléfono<input name="telefono" type="tel" required autocomplete="tel"></label>
+      <label class="check"><input type="checkbox" name="acepta" required> Acepto los <a href="#terminos" data-open-terms>términos y condiciones</a>.</label>
+      <button type="submit" class="btn btn-cyan full">Registrar mi premio <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h11M10.5 5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <p id="formError" class="form-error" role="alert"></p>
+    </form>
+  </div>
+  <div id="doneView" hidden>
+    <span class="eyebrow">Premio registrado</span>
+    <h3 class="modal-title">¡Listo! 🎉</h3>
+    <p class="muted">Nuestro equipo se comunicará contigo para coordinar la activación de tu premio.</p>
+    <form method="dialog"><button class="btn btn-cyan full">Cerrar</button></form>
+  </div>
+</dialog>
+
+<!-- MODAL TÉRMINOS -->
+<dialog id="termsModal" class="modal modal-terms">
+  <form method="dialog" class="modal-close-form"><button class="modal-x" aria-label="Cerrar">×</button></form>
+  <h3 class="modal-title">Términos y condiciones</h3>
+  <ol class="terms">
+    <li>Promoción válida del 18 de noviembre al 5 de diciembre de 2026.</li>
+    <li>Cada participante tiene hasta 3 oportunidades para girar la ruleta. Se otorga un solo premio por negocio.</li>
+    <li>Los premios no son canjeables por dinero en efectivo ni transferibles.</li>
+    <li>Los bonos de $50 y $100 aplican como crédito inicial en la contratación de uno de nuestros servicios.</li>
+    <li>Los descuentos aplican a un solo servicio y no son acumulables con otras promociones.</li>
+    <li>El video promocional incluye la edición de un video de hasta 45 segundos con material provisto por el cliente.</li>
+    <li>Para activar el premio es necesario completar el registro con datos válidos. Colibrí Searcher coordinará la activación.</li>
+    <li>Colibrí Searcher se reserva el derecho de verificar la elegibilidad de los participantes.</li>
+  </ol>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
