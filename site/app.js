@@ -2,36 +2,113 @@
    Colibrí Lucky Shot — configuración
    ========================================================= */
 const CONFIG = {
-  // URL que recibe el registro del premio (POST JSON). Ej: webhook de n8n, Make, Formspree, Google Apps Script.
-  // Si se deja vacío, el registro se envía por WhatsApp al número de abajo.
-  FORM_ENDPOINT: "",
+  // URL de la implementación del Apps Script (apps-script/Codigo.gs).
+  // Vacío = modo demo local (el navegador simula el servidor; no guarda nada).
+  ENDPOINT: "https://script.google.com/macros/s/AKfycbwmuBsTovZyn1o7LkdUKm4hipgjx5_NWli7v3ZOlRls6hbUU9q4zcZLT8EuFpVic8TK/exec",
   WHATSAPP: "17874942330",
   CHANCES: 3,
-  // Vigencia (hora de Puerto Rico, UTC-4)
-  START: "2026-11-18T00:00:00-04:00",
-  END: "2026-12-05T23:59:59-04:00",
-  // Segmentos de la ruleta en orden horario empezando arriba. weight = probabilidad relativa.
-  // type: "prize" gana | "retry" no gasta oportunidad | "lose" gasta oportunidad
+  // Segmentos de la ruleta en orden horario empezando arriba.
+  // El "id" debe existir en RESULTADOS del Apps Script. Quien decide el resultado es el servidor.
   SEGMENTS: [
-    { label: ["10% de", "descuento"], name: "10% de descuento", desc: "En uno de nuestros servicios.", type: "prize", weight: 20, color: "#d6e6fb" },
-    { label: ["Video", "promocional"], name: "un Video promocional", desc: "Edición de un video promocional de hasta 45 segundos.", type: "prize", weight: 8, color: "#ffffff" },
-    { label: ["15% de", "descuento"], name: "15% de descuento", desc: "En uno de nuestros servicios seleccionados.", type: "prize", weight: 12, color: "#d6e6fb" },
-    { label: ["Sigue", "intentando"], type: "lose", weight: 18, color: "#ffffff" },
-    { label: ["$100", "de bono"], name: "$100 de bono", desc: "Como bono inicial en la contratación de uno de nuestros servicios.", type: "prize", weight: 5, color: "#d6e6fb" },
-    { label: ["Sigue", "intentando"], type: "lose", weight: 18, color: "#ffffff" },
-    { label: ["$50", "de bono"], name: "$50 de bono", desc: "Como bono inicial en la contratación de uno de nuestros servicios.", type: "prize", weight: 10, color: "#d6e6fb" },
-    { label: ["Gira de", "nuevo"], type: "retry", weight: 9, color: "#f7d987" },
+    { id: "desc10",  label: ["10% de", "descuento"], color: "#d6e6fb" },
+    { id: "video",   label: ["Video", "promocional"], color: "#ffffff" },
+    { id: "desc15",  label: ["15% de", "descuento"], color: "#d6e6fb" },
+    { id: "lose",    label: ["Sigue", "intentando"], color: "#ffffff" },
+    { id: "bono100", label: ["$100", "de bono"], color: "#d6e6fb" },
+    { id: "lose",    label: ["Sigue", "intentando"], color: "#ffffff" },
+    { id: "bono50",  label: ["$50", "de bono"], color: "#d6e6fb" },
+    { id: "retry",   label: ["Gira de", "nuevo"], color: "#f7d987" },
   ],
+  PRIZES: {
+    video:   { name: "un Video promocional", desc: "Edición de un video promocional de hasta 45 segundos." },
+    desc15:  { name: "15% de descuento", desc: "En uno de nuestros servicios seleccionados.", tipo: "descuento", pct: 15 },
+    bono100: { name: "$100 de bono", desc: "Como bono inicial en la contratación de uno de nuestros servicios.", tipo: "credito" },
+    bono50:  { name: "$50 de bono", desc: "Como bono inicial en la contratación de uno de nuestros servicios.", tipo: "credito" },
+    desc10:  { name: "10% de descuento", desc: "En uno de nuestros servicios.", tipo: "descuento", pct: 10 },
+  },
+  // Deben ser IGUALES a las listas del Apps Script
+  SERVICIOS: ["Branding", "SEO", "Redes sociales", "Edición audiovisual"],
+  PLANES: [
+    { s: "SEO", c: "Silver", p: 580 }, { s: "SEO", c: "Gold", p: 780 }, { s: "SEO", c: "Platinum", p: 980 },
+    { s: "Redes sociales", c: "Silver", p: 580 }, { s: "Redes sociales", c: "Gold", p: 780 }, { s: "Redes sociales", c: "Platinum", p: 1080 },
+    { s: "Edición audiovisual", c: "Silver", p: 499 }, { s: "Edición audiovisual", c: "Gold", p: 799 }, { s: "Edición audiovisual", c: "Platinum", p: 1199 },
+  ],
+  A_COTIZAR: "Cotización",
 };
 
 /* ========================================================= */
 const $ = (s) => document.querySelector(s);
-const STORE_KEY = "colibri-lucky-shot-2026";
 const SEG = 360 / CONFIG.SEGMENTS.length;
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
 
-const load = () => { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || null; } catch { return null; } };
-const save = (s) => { try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch {} };
-let state = load() || { chances: CONFIG.CHANCES, prize: null, registered: false };
+/* ---------- identidad del navegador (igual que la ruleta anterior) ---------- */
+function getDeviceId() {
+  const c = document.cookie.split("; ").find((x) => x.startsWith("cs_device="));
+  let id = c ? c.slice(10) : store.get("cs_device_ls");
+  if (!id) id = crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2);
+  store.set("cs_device_ls", id);
+  document.cookie = `cs_device=${id}; Max-Age=31536000; Path=/; SameSite=Lax${location.protocol === "https:" ? "; Secure" : ""}`;
+  return id;
+}
+
+// Huella del dispositivo (funciona también en modo incógnito)
+function getFingerprint() {
+  let canvasData = "";
+  try {
+    const c = document.createElement("canvas"); c.width = 220; c.height = 40;
+    const x = c.getContext("2d");
+    x.textBaseline = "top"; x.font = "16px Arial"; x.fillStyle = "#f60"; x.fillRect(10, 5, 100, 25);
+    x.fillStyle = "#069"; x.fillText("Colibrí Searcher", 4, 8);
+    canvasData = c.toDataURL();
+  } catch {}
+  const s = [navigator.userAgent, navigator.language, navigator.platform, screen.width + "x" + screen.height, screen.colorDepth,
+    navigator.hardwareConcurrency || "", Intl.DateTimeFormat().resolvedOptions().timeZone, canvasData].join("||");
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < s.length; i++) { const ch = s.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677); }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+
+const deviceId = getDeviceId();
+
+/* ---------- servidor ---------- */
+// POST con text/plain: no requiere preflight CORS y los datos no viajan en la URL.
+async function api(body) {
+  if (!CONFIG.ENDPOINT) return demoApi(body);
+  const r = await fetch(CONFIG.ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ ...body, deviceId }),
+  });
+  return r.json();
+}
+
+// Modo demo: imita al Apps Script dentro del navegador (solo para probar en local)
+function demoApi(body) {
+  const st = store.get("ls_demo") || { usados: 0, premio: null };
+  const pesos = { video: 8, desc15: 12, bono100: 5, bono50: 10, desc10: 20, lose: 36, retry: 9 };
+  if (body.action === "status") return { ok: true, restantes: st.premio ? 0 : CONFIG.CHANCES - st.usados, premio: st.premio };
+  if (body.action === "spin") {
+    if (st.premio) return { ok: false, error: "already", premio: st.premio };
+    if (st.usados >= CONFIG.CHANCES) return { ok: false, error: "no_chances", message: "Ya usaste tus 3 oportunidades. ¡Gracias por participar!" };
+    const ks = Object.keys(pesos), total = ks.reduce((a, k) => a + pesos[k], 0);
+    let n = Math.random() * total, result = "lose";
+    for (const k of ks) { n -= pesos[k]; if (n < 0) { result = k; break; } }
+    if (result !== "retry") st.usados++;
+    let code;
+    if (CONFIG.PRIZES[result]) {
+      code = "COLIBRI-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+      st.premio = { prizeId: result, code, claimed: false };
+    }
+    store.set("ls_demo", st);
+    return { ok: true, result, code, restantes: st.premio ? 0 : CONFIG.CHANCES - st.usados };
+  }
+  if (body.action === "claim") { st.premio.claimed = true; store.set("ls_demo", st); return { ok: true }; }
+}
 
 /* ---------- dibujar ruleta ---------- */
 function drawWheel() {
@@ -70,142 +147,170 @@ function drawWheel() {
     });
   });
 
-  // focos
   for (let i = 0; i < 16; i++) {
     const [x, y] = pt(i * 22.5 + 11.25, 186);
-    el("circle", { cx: x, cy: y, r: 5.5, fill: "#ffc93c", class: "bulb" });
+    el("circle", { cx: x, cy: y, r: 5.5, fill: "#ffc93c" });
   }
   el("circle", { cx, cy, r: 62, fill: "#fff" });
 }
 
-/* ---------- UI ---------- */
+/* ---------- estado y UI ---------- */
+const state = { restantes: CONFIG.CHANCES, premio: null, bloqueado: "" };
+let spinning = false, rotation = 0;
+
 function renderUI(msg) {
   const btn = $("#spinBtn");
-  $("#chancesNum").textContent = state.chances;
-  $("#chancesLabel").innerHTML = (state.chances === 1 ? "Oportunidad<br>restante" : "Oportunidades<br>restantes");
-  const now = Date.now();
-  const before = now < Date.parse(CONFIG.START), after = now > Date.parse(CONFIG.END);
+  $("#chancesNum").textContent = state.restantes;
+  $("#chancesLabel").innerHTML = state.restantes === 1 ? "Oportunidad<br>restante" : "Oportunidades<br>restantes";
 
   let status = msg || "";
-  let disabled = false;
-  if (before) { disabled = true; status = "La promoción inicia el 18 de noviembre de 2026."; }
-  else if (after) { disabled = true; status = "La promoción finalizó. ¡Gracias por participar!"; }
-  else if (state.prize) {
+  let disabled = spinning;
+  if (state.premio) {
     disabled = true;
-    const p = CONFIG.SEGMENTS[state.prize];
-    status = state.registered ? `Ya registraste tu premio: ${p.name}.` : `Ganaste ${p.name}. Registra tu premio →`;
-  } else if (state.chances <= 0) { disabled = true; status = status || "Se acabaron tus oportunidades. ¡Gracias por participar!"; }
-
+    const p = CONFIG.PRIZES[state.premio.prizeId];
+    status = state.premio.claimed
+      ? `Ya registraste tu premio: ${p.name}. Tu código: ${state.premio.code}`
+      : `Ganaste ${p.name}. Registra tu premio →`;
+  } else if (state.bloqueado) {
+    disabled = true; status = state.bloqueado;
+  } else if (state.restantes <= 0) {
+    disabled = true; status = status || "Se acabaron tus oportunidades. ¡Gracias por participar!";
+  }
   btn.disabled = disabled;
   btn.classList.toggle("pulse", !disabled);
   const st = $("#gameStatus");
-  st.textContent = status;
-  st.style.cursor = state.prize && !state.registered ? "pointer" : "";
-}
-
-/* ---------- giro ---------- */
-let spinning = false, rotation = 0;
-
-function pickIndex() {
-  const total = CONFIG.SEGMENTS.reduce((a, s) => a + s.weight, 0);
-  const buf = new Uint32Array(1);
-  crypto.getRandomValues(buf);
-  let n = (buf[0] / 2 ** 32) * total;
-  for (let i = 0; i < CONFIG.SEGMENTS.length; i++) {
-    n -= CONFIG.SEGMENTS[i].weight;
-    if (n < 0) return i;
+  st.innerHTML = "";
+  st.append(status);
+  if (state.bloqueado && /dispositivo/.test(state.bloqueado)) {
+    const a = document.createElement("a");
+    a.href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent("Hola, no pude girar la ruleta de Lucky Shot")}`;
+    a.target = "_blank"; a.rel = "noopener"; a.textContent = " Escríbenos por WhatsApp.";
+    st.append(a);
   }
-  return 0;
+  st.style.cursor = state.premio && !state.premio.claimed ? "pointer" : "";
 }
 
-function spin() {
-  if (spinning || state.prize || state.chances <= 0) return;
+function segmentIndexFor(result) {
+  const idx = CONFIG.SEGMENTS.map((s, i) => (s.id === result ? i : -1)).filter((i) => i >= 0);
+  return idx[Math.floor(Math.random() * idx.length)] ?? 0;
+}
+
+function animateTo(idx) {
+  return new Promise((resolve) => {
+    const jitter = (Math.random() - 0.5) * (SEG * 0.7);
+    const target = 360 - (idx * SEG + SEG / 2) + jitter;
+    const current = ((rotation % 360) + 360) % 360;
+    rotation += 360 * 6 + ((target - current + 360) % 360);
+    const wheel = $("#wheel");
+    wheel.style.transform = `rotate(${rotation}deg)`;
+    const done = () => { wheel.removeEventListener("transitionend", done); clearTimeout(t); resolve(); };
+    wheel.addEventListener("transitionend", done);
+    const t = setTimeout(done, 6000);
+  });
+}
+
+async function spin() {
+  if (spinning || state.premio || state.restantes <= 0 || state.bloqueado) return;
   spinning = true;
-  const btn = $("#spinBtn");
-  btn.disabled = true;
-  btn.classList.remove("pulse");
-  $("#gameStatus").textContent = "Girando…";
+  renderUI("Girando…");
 
-  const idx = pickIndex();
-  const jitter = (Math.random() - 0.5) * (SEG * 0.7);
-  const target = 360 - (idx * SEG + SEG / 2) + jitter;
-  const current = ((rotation % 360) + 360) % 360;
-  rotation += 360 * 6 + ((target - current + 360) % 360);
-  const wheel = $("#wheel");
-  wheel.style.transform = `rotate(${rotation}deg)`;
+  let res;
+  try {
+    res = await api({ action: "spin", fp: getFingerprint() });
+  } catch {
+    spinning = false; renderUI("No pudimos conectar. Revisa tu internet e intenta de nuevo."); return;
+  }
 
-  const done = () => {
-    wheel.removeEventListener("transitionend", done);
-    clearTimeout(fallback);
+  if (!res.ok) {
     spinning = false;
-    onResult(idx);
-  };
-  wheel.addEventListener("transitionend", done);
-  const fallback = setTimeout(done, 6000);
-}
+    if (res.error === "already") { state.premio = res.premio; state.restantes = 0; renderUI(); openPrize(); }
+    else if (res.error === "no_chances") { state.restantes = 0; renderUI(res.message); }
+    else if (res.error === "limit" || res.error === "closed") { state.bloqueado = res.message; renderUI(); }
+    else renderUI(res.message || "La ruleta no está disponible en este momento.");
+    return;
+  }
 
-function onResult(idx) {
-  const s = CONFIG.SEGMENTS[idx];
-  if (s.type === "retry") {
+  await animateTo(segmentIndexFor(res.result));
+  spinning = false;
+  state.restantes = res.restantes;
+
+  if (CONFIG.PRIZES[res.result]) {
+    state.premio = { prizeId: res.result, code: res.code, claimed: false };
+    renderUI(); confetti(); openPrize();
+  } else if (res.result === "retry") {
     renderUI("¡Gira de nuevo! Esta no cuenta como oportunidad.");
-    return;
+  } else {
+    renderUI(state.restantes > 0
+      ? `Sigue intentando. Te ${state.restantes === 1 ? "queda 1 oportunidad" : `quedan ${state.restantes} oportunidades`}.`
+      : "Se acabaron tus oportunidades. ¡Gracias por participar!");
   }
-  state.chances = Math.max(0, state.chances - 1);
-  if (s.type === "prize") {
-    state.prize = idx;
-    save(state);
-    renderUI();
-    confetti();
-    openPrize();
-    return;
-  }
-  save(state);
-  renderUI(state.chances > 0
-    ? `Sigue intentando. Te ${state.chances === 1 ? "queda 1 oportunidad" : `quedan ${state.chances} oportunidades`}.`
-    : "Se acabaron tus oportunidades. ¡Gracias por participar!");
 }
 
-/* ---------- modal premio ---------- */
+/* ---------- modal premio + formulario ---------- */
+function fillServicios(pr) {
+  const wrap = $("#servicioWrap"), sel = $("#servicio");
+  sel.innerHTML = "";
+  if (!pr.tipo) { wrap.hidden = true; return; }
+  wrap.hidden = false;
+  $("#servicioLbl").textContent = pr.tipo === "descuento"
+    ? `Servicio y plan para tu ${pr.pct}% de descuento`
+    : "Servicio donde usarás tu bono";
+  sel.append(new Option("Selecciona una opción", ""));
+  if (pr.tipo === "descuento") {
+    CONFIG.SERVICIOS.forEach((s) => {
+      const g = document.createElement("optgroup"); g.label = s;
+      const planes = CONFIG.PLANES.filter((pl) => pl.s === s);
+      if (!planes.length) g.append(new Option(`${s} — precio a cotizar con ${pr.pct}% de descuento`, `${s}|${CONFIG.A_COTIZAR}`));
+      planes.forEach((pl) => g.append(new Option(`${pl.c} — $${pl.p} → $${Math.round(pl.p * (100 - pr.pct) / 100)}`, `${pl.s}|${pl.c}`)));
+      sel.append(g);
+    });
+  } else {
+    CONFIG.SERVICIOS.forEach((s) => sel.append(new Option(s, s)));
+  }
+}
+
 function openPrize() {
-  const p = CONFIG.SEGMENTS[state.prize];
+  const p = CONFIG.PRIZES[state.premio.prizeId];
   $("#prizeName").textContent = p.name;
   $("#prizeDesc").textContent = p.desc;
-  $("#prizeView").hidden = state.registered;
-  $("#doneView").hidden = !state.registered;
+  $("#prizeCode").textContent = state.premio.code;
+  $("#doneCode").textContent = state.premio.code;
+  $("#doneTxt").textContent = "Ya registraste este premio. Revisa tu correo (también la carpeta de spam).";
+  $("#prizeView").hidden = state.premio.claimed;
+  $("#doneView").hidden = !state.premio.claimed;
+  if (!state.premio.claimed) fillServicios(p);
   $("#prizeModal").showModal();
 }
 
 async function submitClaim(e) {
   e.preventDefault();
   const form = e.target;
-  const data = Object.fromEntries(new FormData(form));
-  const p = CONFIG.SEGMENTS[state.prize];
-  const payload = {
-    nombre: data.nombre, negocio: data.negocio, email: data.email, telefono: data.telefono,
-    premio: p.name.replace(/^un /, ""), fecha: new Date().toISOString(), origen: "Colibrí Lucky Shot 2026",
-  };
-  const btn = form.querySelector("button[type=submit]");
+  const f = Object.fromEntries(new FormData(form));
   const err = $("#formError");
-  err.textContent = "";
-  btn.disabled = true;
+  if (!f.nombre?.trim() || !/^\S+@\S+\.\S+$/.test(f.email || "") || (f.telefono || "").trim().length < 7 || !f.empresa?.trim()) {
+    err.textContent = "Revisa tu nombre, un correo válido, tu teléfono y el nombre de tu negocio."; return;
+  }
+  if (!$("#servicioWrap").hidden && !f.servicio) { err.textContent = "Selecciona un servicio de la lista."; return; }
+  if (!f.acepta) { err.textContent = "Debes aceptar los términos y condiciones."; return; }
 
+  err.textContent = "";
+  const btn = $("#sendBtn");
+  btn.disabled = true;
   try {
-    if (CONFIG.FORM_ENDPOINT) {
-      const res = await fetch(CONFIG.FORM_ENDPOINT, {
-        method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error(res.status);
-    } else {
-      const text = `¡Hola Colibrí Searcher! Gané en Lucky Shot 🎉\n\nPremio: ${payload.premio}\nNombre: ${payload.nombre}\nNegocio: ${payload.negocio}\nEmail: ${payload.email}\nTeléfono: ${payload.telefono}`;
-      window.open(`https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
-    }
-    state.registered = true;
-    save(state);
+    const res = await api({
+      action: "claim", code: state.premio.code,
+      nombre: f.nombre.trim(), email: f.email.trim(), telefono: f.telefono.trim(), empresa: f.empresa.trim(), servicio: f.servicio || "",
+    });
+    if (!res.ok) throw new Error(res.message);
+    state.premio.claimed = true;
+    $("#doneTxt").textContent = CONFIG.ENDPOINT
+      ? `Te enviamos el cupón a ${f.email.trim()}. Revisa también tu carpeta de spam. Nuestro equipo coordinará contigo la activación.`
+      : `Modo demo: en producción el cupón llegaría a ${f.email.trim()}.`;
     $("#prizeView").hidden = true;
     $("#doneView").hidden = false;
     renderUI();
-  } catch {
-    err.textContent = "No pudimos registrar tu premio. Intenta de nuevo o escríbenos a info@colibrisearcher.com.";
+  } catch (er) {
+    err.textContent = er.message && er.message !== "Failed to fetch" ? er.message : "No se pudo enviar. Intenta de nuevo.";
   } finally {
     btn.disabled = false;
   }
@@ -250,7 +355,15 @@ renderUI();
 initAccordion();
 $("#spinBtn").addEventListener("click", spin);
 $("#claimForm").addEventListener("submit", submitClaim);
-$("#gameStatus").addEventListener("click", () => { if (state.prize && !state.registered) openPrize(); });
+$("#gameStatus").addEventListener("click", (e) => { if (e.target.tagName !== "A" && state.premio && !state.premio.claimed) openPrize(); });
 document.querySelectorAll("[data-open-terms]").forEach((a) =>
   a.addEventListener("click", (e) => { e.preventDefault(); $("#termsModal").showModal(); })
 );
+
+// Estado guardado en el servidor (oportunidades restantes y premio previo)
+(async () => {
+  try {
+    const st = await api({ action: "status" });
+    if (st && st.ok) { state.restantes = st.restantes; state.premio = st.premio; renderUI(); }
+  } catch { /* sin conexión: se intenta al girar */ }
+})();

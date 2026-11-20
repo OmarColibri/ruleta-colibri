@@ -298,3 +298,11 @@ button{font-family:inherit}
   html{scroll-behavior:auto}
   .wheel{transition-duration:1s}
 }
+
+/* cupón y selector del formulario */
+.coupon{margin-top:18px;border:2px dashed var(--cyan);border-radius:10px;padding:14px;text-align:center;background:rgba(30,243,255,.06)}
+.coupon span{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#b4cdf0}
+.coupon strong{display:block;font-family:"Courier New",monospace;font-size:clamp(1.3rem,4vw,1.7rem);letter-spacing:.1em;color:var(--cyan);margin-top:4px}
+.claim-form select{font:inherit;font-size:1rem;color:#fff;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:5px;padding:12px 14px;outline:none}
+.claim-form select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(30,243,255,.2)}
+.claim-form select option,.claim-form select optgroup{background:#061a52;color:#fff}

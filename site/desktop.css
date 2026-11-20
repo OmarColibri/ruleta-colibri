@@ -129,4 +129,9 @@
   .terms{padding-left:calc(20 * var(--u));gap:calc(10 * var(--u));margin-top:calc(16 * var(--u))}
   #doneView .btn{margin-top:calc(24 * var(--u))}
   .confetti{top:calc(-12 * var(--u));width:calc(10 * var(--u));height:calc(14 * var(--u))}
+  .coupon{margin-top:calc(18 * var(--u));border:calc(2 * var(--u)) dashed var(--cyan);border-radius:calc(10 * var(--u));padding:calc(14 * var(--u))}
+  .coupon span{font-size:calc(11 * var(--u))}
+  .coupon strong{font-size:calc(27.2 * var(--u));margin-top:calc(4 * var(--u))}
+  .claim-form select{border:calc(1 * var(--u)) solid rgba(255,255,255,.2);border-radius:calc(5 * var(--u));padding:calc(12 * var(--u)) calc(14 * var(--u))}
+  .claim-form select:focus{box-shadow:0 0 0 calc(3 * var(--u)) rgba(30,243,255,.2)}
 }

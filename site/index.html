@@ -259,21 +259,24 @@
     <span class="eyebrow">¡Felicidades!</span>
     <h3 class="modal-title">Ganaste <span id="prizeName" class="t-cyan"></span></h3>
     <p id="prizeDesc" class="muted"></p>
-    <form id="claimForm" class="claim-form">
-      <p class="form-intro">Completa tus datos para registrar tu premio.</p>
+    <div class="coupon"><span>Código del cupón</span><strong id="prizeCode"></strong></div>
+    <form id="claimForm" class="claim-form" novalidate>
+      <p class="form-intro">Completa tus datos y te enviamos el cupón a tu correo.</p>
       <label>Nombre completo<input name="nombre" required autocomplete="name"></label>
-      <label>Nombre del negocio<input name="negocio" required autocomplete="organization"></label>
       <label>Correo electrónico<input name="email" type="email" required autocomplete="email"></label>
-      <label>Teléfono<input name="telefono" type="tel" required autocomplete="tel"></label>
-      <label class="check"><input type="checkbox" name="acepta" required> Acepto los <a href="#terminos" data-open-terms>términos y condiciones</a>.</label>
-      <button type="submit" class="btn btn-cyan full">Registrar mi premio <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h11M10.5 5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <label>Teléfono / WhatsApp<input name="telefono" type="tel" required autocomplete="tel"></label>
+      <label>Nombre del negocio<input name="empresa" required autocomplete="organization"></label>
+      <label id="servicioWrap" hidden><span id="servicioLbl"></span><select name="servicio" id="servicio"></select></label>
+      <label class="check"><input type="checkbox" name="acepta"> Acepto los <a href="#terminos" data-open-terms>términos y condiciones</a>.</label>
+      <button type="submit" class="btn btn-cyan full" id="sendBtn">Recibir mi cupón <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h11M10.5 5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <p id="formError" class="form-error" role="alert"></p>
     </form>
   </div>
   <div id="doneView" hidden>
     <span class="eyebrow">Premio registrado</span>
     <h3 class="modal-title">¡Listo! 🎉</h3>
-    <p class="muted">Nuestro equipo se comunicará contigo para coordinar la activación de tu premio.</p>
+    <p class="muted" id="doneTxt"></p>
+    <div class="coupon"><span>Tu código</span><strong id="doneCode"></strong></div>
     <form method="dialog"><button class="btn btn-cyan full">Cerrar</button></form>
   </div>
 </dialog>
@@ -283,14 +286,18 @@
   <form method="dialog" class="modal-close-form"><button class="modal-x" aria-label="Cerrar">×</button></form>
   <h3 class="modal-title">Términos y condiciones</h3>
   <ol class="terms">
-    <li>Promoción válida del 18 de noviembre al 5 de diciembre de 2026.</li>
-    <li>Cada participante tiene hasta 3 oportunidades para girar la ruleta. Se otorga un solo premio por negocio.</li>
-    <li>Los premios no son canjeables por dinero en efectivo ni transferibles.</li>
-    <li>Los bonos de $50 y $100 aplican como crédito inicial en la contratación de uno de nuestros servicios.</li>
-    <li>Los descuentos aplican a un solo servicio y no son acumulables con otras promociones.</li>
-    <li>El video promocional incluye la edición de un video de hasta 45 segundos con material provisto por el cliente.</li>
-    <li>Para activar el premio es necesario completar el registro con datos válidos. Colibrí Searcher coordinará la activación.</li>
-    <li>Colibrí Searcher se reserva el derecho de verificar la elegibilidad de los participantes.</li>
+    <li>Promoción válida del 18 de noviembre al 5 de diciembre de 2026. El cupón deberá solicitarse o activarse durante ese período.</li>
+    <li>Cada participante tiene hasta 3 oportunidades para girar la ruleta y puede obtener un solo premio.</li>
+    <li>El descuento será del 10% o 15%, según el beneficio obtenido en la ruleta.</li>
+    <li>Los bonos de $50 y $100 aplican como crédito inicial en la contratación de uno de los servicios participantes.</li>
+    <li>El video promocional incluye la edición de un video de hasta 45 segundos.</li>
+    <li>El beneficio aplica únicamente a los servicios seleccionados: Branding, producción audiovisual, gestión de redes sociales y SEO.</li>
+    <li>El cupón es personal e intransferible.</li>
+    <li>El descuento se mantendrá vigente mientras el cliente conserve activo al menos el servicio que le da derecho al beneficio, sujeto a las condiciones de contratación.</li>
+    <li>En caso de cancelar o interrumpir el servicio, el cliente perderá el beneficio y no podrá recuperarlo mediante la reactivación posterior.</li>
+    <li>No acumulable con otras promociones, descuentos o beneficios comerciales.</li>
+    <li>La aplicación del cupón estará sujeta a la disponibilidad y condiciones de cada servicio.</li>
+    <li>Premios con cupos limitados, sujetos a disponibilidad.</li>
   </ol>
 </dialog>
 
