@@ -338,3 +338,77 @@ function buildPlain(nombre, pr, elegido, code) {
     "Más información: WhatsApp " + CONTACTO.waTexto + " | Llamadas " + CONTACTO.telTexto + " | " + CONTACTO.email + "\n" +
     "\nTérminos y condiciones:\n- " + TYC.join("\n- ");
 }
+
+// ===== Formato visual de las hojas =====
+// Ejecútala una vez (o cuando quieras volver a aplicar el formato). No cambia los datos
+// ni la forma en que el script los guarda: el código usa la posición de las columnas, no sus títulos.
+function formatear() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const FILAS = 1000;
+  const MARCA = {navy: "#061a52", cyan: "#1ef3ff", banda: "#f2f7ff", borde: "#dbe5f5"};
+
+  function base(sh, titulos, anchos) {
+    const n = titulos.length;
+    if (sh.getMaxRows() < FILAS) sh.insertRowsAfter(sh.getMaxRows(), FILAS - sh.getMaxRows());
+    sh.getBandings().forEach(b => b.remove());
+    sh.setConditionalFormatRules([]);
+
+    const todo = sh.getRange(1, 1, FILAS, n);
+    todo.setFontFamily("Poppins").setFontSize(10).setVerticalAlignment("middle").setWrap(false);
+    todo.applyRowBanding()
+      .setHeaderRowColor(MARCA.navy).setFirstRowColor("#ffffff").setSecondRowColor(MARCA.banda);
+
+    const head = sh.getRange(1, 1, 1, n);
+    head.setValues([titulos]).setFontColor("#ffffff").setFontWeight("bold").setFontSize(10)
+      .setHorizontalAlignment("left")
+      .setBorder(null, null, true, null, null, null, MARCA.cyan, SpreadsheetApp.BorderStyle.SOLID_THICK);
+    sh.setRowHeight(1, 38);
+    sh.setRowHeightsForced(2, FILAS - 1, 28);
+    sh.setFrozenRows(1);
+    anchos.forEach((w, i) => sh.setColumnWidth(i + 1, w));
+    sh.setTabColor(MARCA.navy);
+  }
+
+  function chip(rango, texto, fondo, color) {
+    return SpreadsheetApp.newConditionalFormatRule().whenTextEqualTo(texto)
+      .setBackground(fondo).setFontColor(color).setBold(true).setRanges([rango]).build();
+  }
+
+  // --- Giros (ganadores) ---
+  const g = ss.getSheetByName(SHEET_GIROS);
+  base(g,
+    ["Fecha", "Device ID", "Premio", "Código", "Nombre", "Email", "Teléfono", "Negocio", "Reclamado", "Huella", "Servicio elegido"],
+    [140, 120, 110, 140, 180, 230, 130, 170, 100, 110, 300]);
+  g.getRange(2, 1, FILAS - 1, 1).setNumberFormat("dd/MM/yyyy HH:mm");
+  g.getRange(2, 7, FILAS - 1, 1).setNumberFormat("@");          // teléfono como texto
+  g.getRange(2, 4, FILAS - 1, 1).setFontFamily("Roboto Mono").setFontWeight("bold").setFontColor("#0647ba");
+  g.getRange(2, 3, FILAS - 1, 1).setHorizontalAlignment("center");
+  g.getRange(2, 9, FILAS - 1, 1).setHorizontalAlignment("center");
+  g.getRange(2, 11, FILAS - 1, 1).setWrap(true);
+  const premio = g.getRange(2, 3, FILAS - 1, 1), reclamado = g.getRange(2, 9, FILAS - 1, 1);
+  g.setConditionalFormatRules([
+    chip(premio, "video",   "#0753e8", "#ffffff"),
+    chip(premio, "desc15",  "#0647ba", "#ffffff"),
+    chip(premio, "bono100", "#19e0ee", "#00143c"),
+    chip(premio, "bono50",  "#56f0cd", "#00143c"),
+    chip(premio, "desc10",  "#e6ecf7", "#00143c"),
+    chip(reclamado, "SI", "#d9fbe8", "#0a7a3d"),
+    chip(reclamado, "NO", "#fff3d6", "#9a6700")
+  ]);
+  g.hideColumns(2); g.hideColumns(10);                           // columnas técnicas
+
+  // --- Intentos (cada giro) ---
+  const t = ss.getSheetByName(SHEET_INTENTOS);
+  base(t, ["Fecha", "Device ID", "Huella", "Resultado"], [150, 120, 110, 140]);
+  t.getRange(2, 1, FILAS - 1, 1).setNumberFormat("dd/MM/yyyy HH:mm:ss");
+  t.getRange(2, 4, FILAS - 1, 1).setHorizontalAlignment("center");
+  const res = t.getRange(2, 4, FILAS - 1, 1);
+  t.setConditionalFormatRules([
+    chip(res, "lose",  "#eef1f6", "#5a6b8c"),
+    chip(res, "retry", "#ffe9a8", "#7a5600"),
+    SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied('=AND(D2<>"",D2<>"lose",D2<>"retry")')
+      .setBackground("#d9fbe8").setFontColor("#0a7a3d").setBold(true).setRanges([res]).build()
+  ]);
+  t.hideColumns(2); t.hideColumns(3);
+}
